@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL 단축기 - 빠르고 간편한 링크 단축 서비스</title>
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 상단 헤더 & 네비게이션 바 -->
+  <header class="app-header">
+    <div class="header-left">
+      <a href="../index.html" class="logo-container" title="메인 홈으로 이동">
+        <img src="img/logo.png" alt="URL2QR 로고" class="logo-img">
+        <span class="logo-title">Link & QR Studio</span>
+      </a>
+      <div class="header-badge">
+        <span class="pulse-dot"></span>
+        <span>URL Shortener</span>
+      </div>
+    </div>
+
+    <!-- 네비게이션 전환 버튼 (1 & 2 요구사항: QR코드 버튼 / URL단축 버튼) -->
+    <nav class="nav-actions" aria-label="메인 기능 전환">
+      <a href="../url2qr/index.html" class="nav-btn" id="navQrBtn" title="QR코드 생성기로 이동">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>QR코드</span>
+      </a>
+      <a href="index.html" class="nav-btn active" id="navShortBtn" title="URL 단축기 (현재 페이지)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+        <span>URL단축</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- 메인 컨텐츠 영역 -->
+  <main class="main-content">
+    <div class="hero-header">
+      <div class="hero-pill">
+        <span>⚡ OpenAPI 기반 초고속 링크 단축</span>
+      </div>
+      <h1 class="hero-title">길고 복잡한 URL을 <span class="highlight">깔끔하게 단축</span>하세요</h1>
+      <p class="hero-subtitle">공유하기 쉬운 숏링크로 즉시 변환하고, 복사하거나 QR코드로 바로 변환할 수 있습니다.</p>
+    </div>
+
+    <!-- 3. 단축기 메인 카드 -->
+    <section class="shortener-card">
+      <form class="url-form" id="shortenerForm">
+        <label for="longUrlInput" class="form-label">
+          <span>단축할 원본 URL</span>
+          <span class="api-status-badge">
+            <span class="api-dot"></span>
+            OpenAPI 연결됨
+          </span>
+        </label>
+
+        <!-- 3-1. 'URL 입력'창 -->
+        <div class="input-box">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <input 
+            type="text" 
+            id="longUrlInput" 
+            class="url-input" 
+            placeholder="단축할 긴 URL을 입력하세요 (예: https://example.com/very/long/url)..." 
+            autocomplete="off" 
+            spellcheck="false"
+          >
+          <button type="button" class="btn-clear" id="clearInputBtn" title="입력 지우기" aria-label="입력 지우기">✕</button>
+        </div>
+
+        <div class="form-actions">
+          <span style="font-size: 0.8rem; color: var(--color-text-light);">* http:// 또는 https:// 가 자동으로 추가됩니다.</span>
+          <!-- 3-1 & 3-2. '단축하기' 버튼 (입력 필드가 비어 있으면 비활성화: disabled) -->
+          <button type="submit" class="btn-shorten" id="shortenBtn" disabled>
+            <span class="spinner" id="spinner"></span>
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 14 10 14 10 20"></polyline>
+              <polyline points="20 10 14 10 14 4"></polyline>
+              <line x1="14" y1="10" x2="21" y2="3"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+            <span id="btnText">단축하기</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- 3-1 & 3-3 & 3-4. 결과 영역 (단축 후 표시) -->
+      <div class="result-section" id="resultSection">
+        <div class="result-header">
+          <span class="result-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            단축 완료
+          </span>
+          <span class="original-url-text" id="originalUrlDisplay"></span>
+        </div>
+
+        <!-- 3-1. 읽기 전용 출력 상자 -->
+        <div class="output-box-wrapper">
+          <input 
+            type="text" 
+            id="shortUrlOutput" 
+            class="short-url-output" 
+            readonly 
+            placeholder="단축된 링크가 여기에 표시됩니다"
+            title="단축된 URL (읽기 전용)"
+          >
+        </div>
+
+        <!-- 3-4. '복사' 버튼 및 추가 액션 -->
+        <div class="result-actions">
+          <button type="button" class="btn-copy" id="copyShortBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            복사
+          </button>
+
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn-action-secondary" id="openShortBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            새 창으로 열기
+          </a>
+
+          <button type="button" class="btn-action-secondary btn-action-qr" id="qrConvertBtn" title="이 단축 URL로 QR코드 만들기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            QR코드로 생성
+          </button>
+        </div>
+      </div>
+
+      <!-- 빠른 테스트 예시 칩 -->
+      <div class="quick-tags" id="quickTags">
+        <span class="quick-label">빠른 예시 테스트:</span>
+        <button type="button" class="tag-chip" data-url="https://ko.wikipedia.org/wiki/%ED%80%B5_%EB%A6%AC%EC%8A%A4%ED%8F%B0%EC%8A%A4_%EC%BD%94%EB%93%9C">위키백과: QR코드</button>
+        <button type="button" class="tag-chip" data-url="https://www.google.com/search?q=url+shortener+api+open+source">구글 검색: URL Shortener</button>
+        <button type="button" class="tag-chip" data-url="https://github.com">GitHub 공식 홈페이지</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- 토스트 알림창 -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

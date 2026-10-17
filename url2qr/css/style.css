@@ -1,0 +1,770 @@
+/* ==========================================================================
+   URL2QR - Modern Styling & Fluid Transition Animations
+   ========================================================================== */
+
+:root {
+  /* Brand Theme Colors (Synchronized with Logo Yellow #f9bc08 / Amber) */
+  --color-primary: #F59E0B;
+  --color-primary-hover: #D97706;
+  --color-primary-light: #FEF3C7;
+  --color-primary-soft: rgba(245, 158, 11, 0.12);
+  
+  --color-dark: #111827;
+  --color-dark-surface: #1F2937;
+  --color-text-main: #1F2937;
+  --color-text-muted: #6B7280;
+  --color-text-light: #9CA3AF;
+  
+  --color-bg-base: #F8FAFC;
+  --color-bg-card: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-border-focus: #F59E0B;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 4px 10px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 25px rgba(245, 158, 11, 0.25);
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease-in-out;
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--color-bg-base);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.07) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(17, 24, 39, 0.04) 0px, transparent 50%);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App Container */
+.app-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   1. Header & Logo (상단 좌측 로고)
+   -------------------------------------------------------------------------- */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 76px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+  pointer-events: none; /* 클릭 필요한 자식만 pointer-events auto */
+}
+
+.logo-container {
+  pointer-events: auto;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.logo-container:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.logo-img {
+  height: 38px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+.nav-actions {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  background: rgba(241, 245, 249, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  transition: var(--transition-fast);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.nav-btn:hover {
+  color: var(--color-dark);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.nav-btn.active {
+  background: #FFFFFF;
+  color: var(--color-dark);
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6);
+  animation: pulse-ring 2s infinite cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+/* --------------------------------------------------------------------------
+   Main Content Layout
+   -------------------------------------------------------------------------- */
+.main-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   3. QR Code Result Card (화면 정중앙 위치)
+   -------------------------------------------------------------------------- */
+.qr-section {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+  z-index: 20;
+}
+
+/* QR이 생성되었을 때 활성화 */
+.state-generated .qr-section {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.qr-card {
+  background: var(--color-bg-card);
+  padding: 24px 28px 26px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 360px;
+  max-width: 90vw;
+  animation: float-gentle 4s ease-in-out infinite alternate;
+}
+
+@keyframes float-gentle {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
+}
+
+.qr-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tag-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  background: var(--color-dark);
+  color: #FFFFFF;
+  border-radius: var(--radius-sm);
+}
+
+.hint-text {
+  font-size: 0.8rem;
+  color: var(--color-primary-hover);
+  font-weight: 600;
+}
+
+/* 4. QR Code Canvas & Clickable Download Area */
+.qr-canvas-wrapper {
+  position: relative;
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 2px dashed #E5E7EB;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-canvas-wrapper:hover {
+  border-color: var(--color-primary);
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+}
+
+#qrCanvas {
+  display: block;
+  width: 250px;
+  height: 250px;
+  border-radius: 8px;
+}
+
+/* Hover Overlay for Download */
+.qr-hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.78);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  border-radius: var(--radius-lg);
+}
+
+.qr-canvas-wrapper:hover .qr-hover-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transform: translateY(6px);
+  transition: transform 0.25s ease;
+}
+
+.qr-canvas-wrapper:hover .overlay-content {
+  transform: translateY(0);
+}
+
+.icon-download {
+  width: 32px;
+  height: 32px;
+  stroke: var(--color-primary);
+}
+
+/* QR Footer Area */
+.qr-card-footer {
+  width: 100%;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.url-preview-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #F1F5F9;
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+  overflow: hidden;
+}
+
+.icon-link {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke: var(--color-primary);
+}
+
+.url-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: monospace;
+}
+
+.card-action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 10px 16px;
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-primary {
+  flex: 1;
+  background: var(--color-primary);
+  color: var(--color-dark);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background: #E2E8F0;
+  color: var(--color-text-main);
+}
+
+.btn-secondary:hover {
+  background: #CBD5E1;
+}
+
+/* --------------------------------------------------------------------------
+   2. URL Input Section (중앙 -> 하단 트랜지션)
+   -------------------------------------------------------------------------- */
+.input-section {
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  max-width: 680px;
+  padding: 0 24px;
+  z-index: 30;
+  transition: var(--transition-smooth);
+}
+
+/* 초기 상태: 화면 정중앙 */
+.state-initial .input-section {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 생성 완료 상태: 화면 하단으로 매끄럽게 안착 */
+.state-generated .input-section {
+  top: auto;
+  bottom: 28px;
+  transform: translate(-50%, 0);
+  max-width: 620px;
+}
+
+/* Hero Header Text (초기 화면에서만 노출) */
+.hero-header {
+  text-align: center;
+  margin-bottom: 28px;
+  transition: var(--transition-smooth);
+}
+
+.state-generated .hero-header {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--color-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Main URL Input Form */
+.url-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-bg-card);
+  padding: 8px 10px 8px 18px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  border: 2px solid transparent;
+  transition: var(--transition-fast);
+}
+
+/* Focus State */
+.url-form:focus-within {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-xl), 0 0 0 4px var(--color-primary-soft);
+}
+
+/* 하단으로 내려왔을 때의 폼 디자인 (Glassmorphic) */
+.state-generated .url-form {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  padding: 6px 8px 6px 16px;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.input-icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-text-light);
+  flex-shrink: 0;
+  margin-right: 12px;
+  transition: var(--transition-fast);
+}
+
+.url-form:focus-within .input-icon {
+  stroke: var(--color-primary);
+}
+
+.url-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  padding: 10px 0;
+}
+
+.state-generated .url-input {
+  font-size: 0.975rem;
+  padding: 8px 0;
+}
+
+.url-input::placeholder {
+  color: var(--color-text-light);
+  font-weight: 400;
+}
+
+/* Clear button inside input */
+.btn-clear {
+  background: transparent;
+  border: none;
+  color: var(--color-text-light);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.btn-clear:hover {
+  color: var(--color-dark);
+  background: #E2E8F0;
+}
+
+/* Submit Confirmation Button */
+.btn-submit {
+  background: var(--color-dark);
+  color: #FFFFFF;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 13px 24px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+
+.btn-submit:hover {
+  background: #27272A;
+  transform: translateY(-1px);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.submit-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.btn-submit:hover .submit-arrow {
+  transform: translateX(3px);
+}
+
+.state-generated .btn-submit {
+  padding: 10px 18px;
+  font-size: 0.925rem;
+}
+
+/* Reset / New Button (하단 상태에서 활성화) */
+.btn-reset {
+  display: none;
+  background: #F1F5F9;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 10px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.btn-reset svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-reset:hover {
+  background: #E2E8F0;
+  color: var(--color-dark);
+}
+
+.state-generated .btn-reset {
+  display: inline-flex;
+}
+
+/* Quick Tags / Sample Chips */
+.quick-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  transition: var(--transition-smooth);
+}
+
+.state-generated .quick-tags {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.quick-tags-label {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.tag-chip {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-border);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.tag-chip:hover {
+  background: #FFFFFF;
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Toast Notification
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  background: var(--color-dark);
+  color: #FFFFFF;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .app-header {
+    padding: 0 16px;
+    height: 64px;
+  }
+
+  .logo-img {
+    height: 32px;
+  }
+
+  .header-badge {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .qr-card {
+    width: 320px;
+    padding: 20px 18px;
+  }
+
+  #qrCanvas {
+    width: 220px;
+    height: 220px;
+  }
+
+  .input-section {
+    padding: 0 16px;
+  }
+
+  .state-generated .input-section {
+    bottom: 16px;
+  }
+
+  .url-form {
+    padding: 6px 6px 6px 12px;
+  }
+
+  .btn-submit {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
